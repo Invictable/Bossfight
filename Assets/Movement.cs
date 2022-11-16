@@ -82,15 +82,18 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, whatIsGround);
-        if (grounded)
-            rb.drag = groundDrag;
-        else
-            rb.drag = 0;
+      //  if(gameObject.GetComponent<PlayerHealth>().isAlive)
+        {
+            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, whatIsGround);
+            if (grounded)
+                rb.drag = groundDrag;
+            else
+                rb.drag = 0;
 
-        GetInput();
-        speedControl();
-        StateHandler();
+            GetInput();
+            speedControl();
+            StateHandler();
+        }
     }    
    
     void FixedUpdate()
