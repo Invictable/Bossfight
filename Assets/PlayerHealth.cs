@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public bool isAlive = true;
     public double startingHealth;
     public double currentHealth;
+    public Image hurtImage;
 
     bool damageCooldown = false;
     // Start is called before the first frame update
@@ -15,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     {
         isAlive = true;
         currentHealth = startingHealth;
+        hurtImage.enabled = false;
     }
 
     // Update is called once per frame
@@ -44,20 +47,31 @@ public class PlayerHealth : MonoBehaviour
         if (other.gameObject.CompareTag("Damager") && !damageCooldown)
         {
             Attack thisAttack = other.gameObject.GetComponent<Attack>();
-            currentHealth -= thisAttack.damage;
+            doDamage(thisAttack.damage);
             other.gameObject.SetActive(false);
-            damageCooldown = true;
-            StartCoroutine(DamageTimer(1)); // prevents damage stacking
         }
         else if(other.gameObject.CompareTag("Border"))
         {
-            currentHealth = 0;
+            doDamage(currentHealth);
         }
+    }
+
+    public void doDamage(double damage)
+    {
+        currentHealth -= damage;
+        hurtImage.enabled = true;
+        StartCoroutine(flashRed());
     }
 
     IEnumerator DamageTimer(int i)
     {
         yield return new WaitForSeconds(i);
         damageCooldown = false;
+    }
+
+    IEnumerator flashRed()
+    {
+        yield return new WaitForSeconds(0.2f);
+        hurtImage.enabled = false;
     }
 }

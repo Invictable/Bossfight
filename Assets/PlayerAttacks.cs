@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAttacks : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerAttacks : MonoBehaviour
     public float cooldown;
     public float armStrength;
     public float currentArmStrength;
+    public Text abilityPrompt;
 
     bool readyToThrow;
     bool ability1Ready = true;
@@ -46,6 +48,7 @@ public class PlayerAttacks : MonoBehaviour
         {
             ability1Ready = false;
             gameObject.GetComponent<PlayerHealth>().AddHealth(50, false);
+            abilityPrompt.enabled = false;
             Invoke(nameof(resetAbility1Cooldown), ability1cooldown);
         }
     }
@@ -56,12 +59,17 @@ public class PlayerAttacks : MonoBehaviour
         GameObject proj = Instantiate(projectile, attackPoint.position, cam.rotation);
         Rigidbody projRB = proj.GetComponent<Rigidbody>();
 
-        Vector3 rbforce = cam.transform.forward * force + transform.up * currentArmStrength;
+        Vector3 forceDirection = cam.transform.forward;
+        RaycastHit hit;
+        if(Physics.Raycast(cam.position,cam.forward, out hit, 2500))
+        {
+            forceDirection = (hit.point - attackPoint.position).normalized;
+        }
+
+        Vector3 rbforce = forceDirection * force + transform.up * currentArmStrength;
         projRB.AddForce(rbforce, ForceMode.Impulse);
         
         Invoke(nameof(resetCooldown), cooldown);
-
-        //proj.GetComponent<Bullet>().Launch(shootDir);
     }
 
     void resetCooldown()
@@ -72,5 +80,6 @@ public class PlayerAttacks : MonoBehaviour
     void resetAbility1Cooldown()
     {
         ability1Ready = true;
+        abilityPrompt.enabled = true;
     }
 }

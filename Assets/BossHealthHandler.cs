@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossHealthHandler : MonoBehaviour
 {
+    public static GameObject bossObj;
+    public Boss boss = bossObj.GetComponent<Boss>();
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,6 @@ public class BossHealthHandler : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Boss boss = transform.root.GetComponent<Boss>();
         if (other.gameObject.CompareTag("BossDamager"))
         {
             Attack thisAttack = other.gameObject.GetComponent<Attack>();
