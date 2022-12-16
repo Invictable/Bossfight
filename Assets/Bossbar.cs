@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class Bossbar : MonoBehaviour
 {
-
+    public GameObject BossObj;
     private Image healthbar;
     Boss health;
     // Start is called before the first frame update
     void Start()
     {
         healthbar = GetComponent<Image>();
-        GameObject player = GameObject.Find("Boss");
-        health = player.GetComponent<Boss>();
+    }
+
+    void Awake()
+    {
+        health = BossObj.GetComponent<Boss>();
     }
 
     // Update is called once per frame

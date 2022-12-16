@@ -26,6 +26,10 @@ public class PlayerAttacks : MonoBehaviour
     bool ability1Ready = true;
     int ability1cooldown = 30;
 
+    public AudioSource Shoot;
+    public AudioSource Heal;
+    public AudioSource Refresh;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,10 +43,12 @@ public class PlayerAttacks : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && readyToThrow)
         {
             fire(100f,bulletProjectile);
+            Shoot.Play();
         }
         else if (Input.GetMouseButtonDown(1) && readyToThrow)
         {
             fire(50f, ballProjectile);
+            Shoot.Play();
         }
         else if(Input.GetKey(Ability1) && ability1Ready)
         {
@@ -50,6 +56,7 @@ public class PlayerAttacks : MonoBehaviour
             gameObject.GetComponent<PlayerHealth>().AddHealth(50, false);
             abilityPrompt.enabled = false;
             Invoke(nameof(resetAbility1Cooldown), ability1cooldown);
+            Heal.Play();
         }
     }
 
@@ -79,6 +86,7 @@ public class PlayerAttacks : MonoBehaviour
 
     void resetAbility1Cooldown()
     {
+        Refresh.Play();
         ability1Ready = true;
         abilityPrompt.enabled = true;
     }

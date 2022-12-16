@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class BossHealthHandler : MonoBehaviour
 {
-    public static GameObject bossObj;
-    public Boss boss = bossObj.GetComponent<Boss>();
+    public GameObject bossObj;
+    public AudioSource Damage;
+    Boss boss;
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+
+    void Awake()
+    {
+        boss = bossObj.GetComponent<Boss>();
     }
 
     // Update is called once per frame
@@ -20,10 +26,11 @@ public class BossHealthHandler : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("BossDamager"))
+        if (other.gameObject.CompareTag("BossDamager") && boss.canTakeDamage)
         {
-            Attack thisAttack = other.gameObject.GetComponent<Attack>();
-            boss.takeHealth(thisAttack.damage);
+            //Attack thisAttack = other.gameObject.GetComponent<Attack>();
+            Damage.Play();
+            boss.damage(1);
             other.gameObject.SetActive(false);
             Destroy(other.gameObject);
         }

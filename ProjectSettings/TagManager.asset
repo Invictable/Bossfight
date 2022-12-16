@@ -7,6 +7,7 @@ TagManager:
   - Border
   - Damager
   - BossDamager
+  - Map
   layers:
   - Default
   - TransparentFX

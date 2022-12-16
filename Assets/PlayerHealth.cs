@@ -10,6 +10,8 @@ public class PlayerHealth : MonoBehaviour
     public double startingHealth;
     public double currentHealth;
     public Image hurtImage;
+    public AudioSource Hurt;
+    public AudioSource Death;
 
     bool damageCooldown = false;
     // Start is called before the first frame update
@@ -61,6 +63,14 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         hurtImage.enabled = true;
         StartCoroutine(flashRed());
+        if (currentHealth > 0)
+        {
+            Hurt.Play();
+        }
+        else
+        {
+            Death.Play();
+        }
     }
 
     IEnumerator DamageTimer(int i)

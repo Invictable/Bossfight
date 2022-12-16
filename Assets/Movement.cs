@@ -113,7 +113,7 @@ public class Movement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown); // invokes after jumpCooldown seconds
         }
 
-        if(Input.GetKeyDown(crouchKey)&&false)
+        if(Input.GetKeyDown(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 6f, ForceMode.Impulse);
